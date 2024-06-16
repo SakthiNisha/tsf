@@ -1,54 +1,48 @@
-import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, Alert } from 'react-native';
-import { AuthContext } from '../AuthContext';
+import React, { useContext, useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { UserContext } from '../UserContext';
 
-export default function SignupScreen({ navigation }) {
-  const [mobileNumber, setMobileNumber] = useState('');
-  const { login } = useContext(AuthContext);
+const SignupScreen = ({ navigation }) => {
+  const { login } = useContext(UserContext);
+  const [phone, setPhone] = useState('');
 
   const handleSignup = () => {
-    if (mobileNumber.length === 10) {
-      login();
-      Alert.alert('Signup Successful', `You have signed up with mobile number: ${mobileNumber}`);
-      navigation.navigate('Home');
-    } else {
-      Alert.alert('Invalid Mobile Number', 'Please enter a valid 10-digit mobile number.');
-    }
+    // Assume signup is successful
+    login();
+    navigation.navigate('Home'); // Navigate back to home
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Signup with Mobile Number</Text>
+      <Text style={styles.label}>Enter your phone number</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter Mobile Number"
+        value={phone}
+        onChangeText={setPhone}
         keyboardType="phone-pad"
-        value={mobileNumber}
-        onChangeText={setMobileNumber}
       />
       <Button title="Signup" onPress={handleSignup} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
     justifyContent: 'center',
+    padding: 16,
   },
-  text: {
-    fontSize: 20,
-    color: '#4b0082',
-    textAlign: 'center',
-    marginBottom: 20,
+  label: {
+    fontSize: 18,
+    marginBottom: 8,
   },
   input: {
-    borderWidth: 1,
+    height: 40,
     borderColor: '#ccc',
-    padding: 10,
-    marginBottom: 20,
-    borderRadius: 5,
+    borderWidth: 1,
+    marginBottom: 16,
+    paddingHorizontal: 8,
   },
 });
+
+export default SignupScreen;

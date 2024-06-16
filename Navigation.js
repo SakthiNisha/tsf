@@ -1,14 +1,17 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Image, View, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome icons
+import { Image, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import MyTabs from './TabNavigation';
 import SignupScreen from './screens/SignupScreen';
+import { UserContext, UserProvider } from './UserContext';
 
 const Stack = createStackNavigator();
 
-function MyStack({ navigation }) {
+function MyStack() {
+  const { isLoggedIn } = React.useContext(UserContext);
+
   return (
     <Stack.Navigator>
       <Stack.Screen 
@@ -28,7 +31,7 @@ function MyStack({ navigation }) {
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
               <Icon
-                name="user-plus" // FontAwesome icon name for signup
+                name={isLoggedIn ? "user" : "user-plus"} // Change icon based on login state
                 size={30}
                 color="#fff"
                 style={{ marginRight: 10 }}
@@ -53,8 +56,10 @@ function MyStack({ navigation }) {
 
 export default function Navigation() {
   return (
-    <NavigationContainer>
-      <MyStack />
-    </NavigationContainer>
+    <UserProvider>
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>
+    </UserProvider>
   );
 }
