@@ -5,6 +5,8 @@ import { Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MyTabs from './TabNavigation';
 import SignupScreen from './screens/SignupScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import BookingDetailsScreen from './screens/BookingDetailsScreen'; // Import the BookingDetailsScreen
 import { UserContext, UserProvider } from './UserContext';
 
 const Stack = createStackNavigator();
@@ -13,41 +15,56 @@ function MyStack() {
   const { isLoggedIn } = React.useContext(UserContext);
 
   return (
-    <Stack.Navigator>
-      <Stack.Screen 
-        name="Home" 
-        component={MyTabs} 
-        options={({ navigation }) => ({
-          headerStyle: { backgroundColor: '#4b0082' }, // Royal purple background
-          headerTintColor: '#fff', // White text color
-          headerTitleStyle: { fontWeight: 'bold', fontSize: 24 },
-          headerTitle: 'TSF',
-          headerLeft: () => (
-            <Image
-              source={require('./assets/tsf.jpeg')} // Path to your logo
-              style={{ width: 30, height: 30, marginLeft: 10 }}
+    <Stack.Navigator
+      screenOptions={({ navigation }) => ({
+        headerStyle: { backgroundColor: '#4b0082' }, // Royal purple background
+        headerTintColor: '#fff', // White text color
+        headerTitleStyle: { fontWeight: 'bold', fontSize: 24 },
+        headerTitleAlign: 'center',
+        headerLeft: () => (
+          <Image
+            source={require('./assets/logo.jpg')} // Path to your logo
+            style={{ width: 50, height: 50, marginLeft: 10 }}
+          />
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.navigate(isLoggedIn ? 'Profile' : 'Signup')}>
+            <Icon
+              name={isLoggedIn ? "user" : "user-circle"} // Change icon based on login state
+              size={30}
+              color="#fff"
+              style={{ marginRight: 10 }}
             />
-          ),
-          headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-              <Icon
-                name={isLoggedIn ? "user" : "user-plus"} // Change icon based on login state
-                size={30}
-                color="#fff"
-                style={{ marginRight: 10 }}
-              />
-            </TouchableOpacity>
-          ),
-        })}
+          </TouchableOpacity>
+        ),
+      })}
+    >
+      <Stack.Screen 
+        name="Tabs" 
+        component={MyTabs} 
+        options={{
+          headerTitle: 'Think Smart Further',
+        }}
       />
       <Stack.Screen 
         name="Signup" 
         component={SignupScreen} 
         options={{
-          headerStyle: { backgroundColor: '#4b0082' },
-          headerTintColor: '#fff',
-          headerTitleStyle: { fontWeight: 'bold', fontSize: 24 },
           headerTitle: 'Signup',
+        }}
+      />
+      <Stack.Screen 
+        name="Profile" 
+        component={ProfileScreen} 
+        options={{
+          headerTitle: 'Profile',
+        }}
+      />
+      <Stack.Screen 
+        name="BookingDetails" 
+        component={BookingDetailsScreen} 
+        options={{
+          headerTitle: 'Booking Details',
         }}
       />
     </Stack.Navigator>

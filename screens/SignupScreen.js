@@ -7,9 +7,8 @@ const SignupScreen = ({ navigation }) => {
   const [phone, setPhone] = useState('');
 
   const handleSignup = () => {
-    // Assume signup is successful
-    login();
-    navigation.navigate('Home'); // Navigate back to home
+    login(phone);
+    navigation.navigate('Signup'); // Navigate back to home
   };
 
   return (

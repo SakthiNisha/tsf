@@ -1,22 +1,33 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import RideScreen from './screens/RideScreen';
 import FoodScreen from './screens/FoodScreen';
+import SignupScreen from './screens/SignupScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import SettingScreen from './screens/SettingScreen';
+import { UserContext } from './UserContext';
 
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
+  const { isLoggedIn, isProfileUpdated } = useContext(UserContext);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
+          console.log(route.name);
           if (route.name === 'Ride') {
             iconName = 'car';
           } else if (route.name === 'Food') {
             iconName = 'utensils';
+          } else if (route.name === 'Home') {
+            iconName = 'home';
+          } else if (route.name === 'setting') {
+            iconName = 'cog';
           }
 
           return <Icon name={iconName} size={focused ? 30 : 25} color={color} />;
@@ -35,8 +46,24 @@ function MyTabs() {
         },
       })}
     >
-      <Tab.Screen name="Ride" component={RideScreen} />
-      <Tab.Screen name="Food" component={FoodScreen} />
+      <Tab.Screen
+        name="Home"
+        component={(isLoggedIn && isProfileUpdated) ? RideScreen : SignupScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Ride"
+        component={RideScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Food"
+        component={FoodScreen}
+      />
+      <Tab.Screen
+        name="setting"
+        component={SettingScreen}
+      />
     </Tab.Navigator>
   );
 }

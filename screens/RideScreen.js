@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, FlatList, Alert } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, StyleSheet, Button, FlatList, Image } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 const locations = [
   { label: 'Uchippuli', value: 'uchippuli' },
@@ -11,13 +12,22 @@ const locations = [
 ];
 
 const vehicles = [
-  { type: 'Sedan', price: 50 },
-  { type: 'SUV', price: 40 },
-  { type: 'Van', price: 30 },
-  { type: 'Auto', price: 70 },
+  { image: '../assets/sedan4.jpg', seat: 4, type: 'Sedan', price: 50 },
+  { image: '../assets/suv1.jpg', seat: 7, type: 'SUV', price: 40 },
+  { image: '../assets/van.jpg', seat: 15, type: 'Van', price: 30 },
+  { image: '../assets/auto2.jpg', seat: 3, type: 'Auto', price: 70 },
 ];
 
+const images = {
+  '../assets/van.jpg': require('../assets/van.jpg'),
+  '../assets/sedan4.jpg': require('../assets/sedan4.jpg'),
+  '../assets/auto2.jpg': require('../assets/auto2.jpg'),
+  '../assets/suv1.jpg': require('../assets/suv1.jpg'),
+  // Add more images here if needed
+};
+
 export default function RideScreen() {
+  const navigation = useNavigation(); // Access navigation object
   const [fromOpen, setFromOpen] = useState(false);
   const [toOpen, setToOpen] = useState(false);
   const [fromValue, setFromValue] = useState(null);
@@ -40,29 +50,36 @@ export default function RideScreen() {
 
   const handleConfirmPickup = () => {
     if (selectedVehicle) {
-      Alert.alert(
-        'Pickup Confirmed',
-        `You have chosen a ${selectedVehicle.type} for $${selectedVehicle.price}.`,
-        [
-          {
-            text: 'OK',
-            onPress: () => {
-              setFromValue(null);
-              setToValue(null);
-              setShowVehicles(false);
-              setSelectedVehicle(null);
-            },
-          },
-        ]
-      );
+      navigation.navigate('BookingDetails', {
+        fromValue,
+        toValue,
+        selectedVehicle,
+      });
     } else {
       alert('Please select a vehicle');
     }
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      // Reset the state when the screen is focused
+      setFromValue(null);
+      setToValue(null);
+      setShowVehicles(false);
+      setSelectedVehicle(null);
+      setFromOpen(false);
+      setToOpen(false);
+    }, [])
+  );
+
   const renderVehicleItem = ({ item }) => (
     <View style={styles.vehicleItem}>
+      <Image
+        source={images[item.image]} // Path to your logo
+        style={{ width: 90, height: 40, marginLeft: 10 }}
+      />
       <Text style={styles.vehicleText}>{item.type}</Text>
+      <Text style={styles.vehicleText}>{item.seat} Seat</Text>
       <Text style={styles.vehiclePrice}>{item.price} $</Text>
       <Button title="Select" onPress={() => handleSelectVehicle(item)} />
     </View>
@@ -96,6 +113,8 @@ export default function RideScreen() {
 
       <Button title="Search" onPress={handleSearch} />
 
+      {showVehicles && <Text style={styles.text}>Choose a ride</Text>}
+
       {showVehicles && (
         <FlatList
           data={vehicles}
@@ -117,14 +136,13 @@ export default function RideScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 5,
     backgroundColor: '#fff',
   },
   text: {
-    fontSize: 20,
-    color: '#4b0082',
+    fontSize: 30,
+    color: '#101010',
     textAlign: 'center',
-    marginBottom: 20,
   },
   dropdown: {
     marginBottom: 10,
