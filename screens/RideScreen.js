@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, Button, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, FlatList, Image, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
@@ -27,7 +27,7 @@ const images = {
 };
 
 export default function RideScreen() {
-  const navigation = useNavigation(); // Access navigation object
+  const navigation = useNavigation();
   const [fromOpen, setFromOpen] = useState(false);
   const [toOpen, setToOpen] = useState(false);
   const [fromValue, setFromValue] = useState(null);
@@ -38,7 +38,7 @@ export default function RideScreen() {
   const handleSearch = () => {
     if (fromValue && toValue) {
       setShowVehicles(true);
-      setSelectedVehicle(null); // Clear previously selected vehicle
+      setSelectedVehicle(null);
     } else {
       alert('Please select both "From" and "To" locations');
     }
@@ -62,7 +62,6 @@ export default function RideScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      // Reset the state when the screen is focused
       setFromValue(null);
       setToValue(null);
       setShowVehicles(false);
@@ -73,22 +72,28 @@ export default function RideScreen() {
   );
 
   const renderVehicleItem = ({ item }) => (
-    <View style={styles.vehicleItem}>
+    <TouchableOpacity
+      onPress={() => handleSelectVehicle(item)}
+      style={[
+        styles.vehicleItem,
+        selectedVehicle?.type === item.type && styles.selectedVehicleItem,
+      ]}
+    >
       <Image
-        source={images[item.image]} // Path to your logo
-        style={{ width: 90, height: 40, marginLeft: 10 }}
+        source={images[item.image]}
+        style={styles.vehicleImage}
       />
-      <Text style={styles.vehicleText}>{item.type}</Text>
-      <Text style={styles.vehicleText}>{item.seat} Seat</Text>
-      <Text style={styles.vehiclePrice}>{item.price} $</Text>
-      <Button title="Select" onPress={() => handleSelectVehicle(item)} />
-    </View>
+      <View style={styles.vehicleDetails}>
+        <Text style={styles.vehicleText}>{item.type}</Text>
+        <Text style={styles.vehicleText}>{item.seat} Seat</Text>
+        <Text style={styles.vehiclePrice}>{item.price} $</Text>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Ride Booking</Text>
-
       <DropDownPicker
         open={fromOpen}
         value={fromValue}
@@ -96,8 +101,9 @@ export default function RideScreen() {
         setOpen={setFromOpen}
         setValue={setFromValue}
         placeholder="From"
-        style={styles.dropdown}
-        dropDownContainerStyle={styles.dropdownContainer}
+        style={[styles.dropdown, { zIndex: 2000 }]}
+        dropDownContainerStyle={[styles.dropdownContainer, { zIndex: 2000 }]}
+        onOpen={() => setToOpen(false)}
       />
 
       <DropDownPicker
@@ -107,8 +113,9 @@ export default function RideScreen() {
         setOpen={setToOpen}
         setValue={setToValue}
         placeholder="To"
-        style={styles.dropdown}
-        dropDownContainerStyle={styles.dropdownContainer}
+        style={[styles.dropdown, { zIndex: 1000 }]}
+        dropDownContainerStyle={[styles.dropdownContainer, { zIndex: 1000 }]}
+        onOpen={() => setFromOpen(false)}
       />
 
       <Button title="Search" onPress={handleSearch} />
@@ -146,6 +153,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     marginBottom: 10,
+    elevation: 1,
   },
   dropdownContainer: {
     borderColor: '#4b0082',
@@ -159,6 +167,21 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+  },
+  selectedVehicleItem: {
+    backgroundColor: '#e0e0e0', // Change this color to the desired highlight color
+  },
+  vehicleImage: {
+    width: 90,
+    height: 40,
+    marginLeft: 10,
+  },
+  vehicleDetails: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginLeft: 10,
   },
   vehicleText: {
     fontSize: 18,

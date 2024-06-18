@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+//import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RideScreen from './screens/RideScreen';
 import FoodScreen from './screens/FoodScreen';
 import SignupScreen from './screens/SignupScreen';
@@ -19,18 +20,18 @@ function MyTabs() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          console.log(route.name);
+         // console.log(route.name);
           if (route.name === 'Ride') {
             iconName = 'car';
           } else if (route.name === 'Food') {
-            iconName = 'utensils';
+            iconName = 'cart';
           } else if (route.name === 'Home') {
             iconName = 'home';
           } else if (route.name === 'setting') {
             iconName = 'cog';
           }
 
-          return <Icon name={iconName} size={focused ? 30 : 25} color={color} />;
+          return <Icon name={iconName} size={focused ? 35 : 30} color={color} />;
         },
         tabBarActiveTintColor: '#ffffff',
         tabBarInactiveTintColor: '#d1c4e9',

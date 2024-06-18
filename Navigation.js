@@ -17,7 +17,7 @@ function MyStack() {
   return (
     <Stack.Navigator
       screenOptions={({ navigation }) => ({
-        headerStyle: { backgroundColor: '#4b0082' }, // Royal purple background
+        headerStyle: { backgroundColor: '#DB8534' }, // Royal purple background
         headerTintColor: '#fff', // White text color
         headerTitleStyle: { fontWeight: 'bold', fontSize: 24 },
         headerTitleAlign: 'center',
@@ -30,7 +30,7 @@ function MyStack() {
         headerRight: () => (
           <TouchableOpacity onPress={() => navigation.navigate(isLoggedIn ? 'Profile' : 'Signup')}>
             <Icon
-              name={isLoggedIn ? "user" : "user-circle"} // Change icon based on login state
+              name={isLoggedIn ? "account-circle" : "user-circle"} // Change icon based on login state
               size={30}
               color="#fff"
               style={{ marginRight: 10 }}
