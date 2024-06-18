@@ -8,7 +8,7 @@ const SignupScreen = ({ navigation }) => {
 
   const handleSignup = () => {
     login(phone);
-    navigation.navigate('Signup'); // Navigate back to home
+    navigation.navigate('Otp', { phone }); // Navigate to OTP screen
   };
 
   return (

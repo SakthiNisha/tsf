@@ -2,18 +2,19 @@ import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { UserContext } from '../UserContext';
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ route, navigation }) => {
   const { userPhone, userName, userAddress, updateUserDetails } = useContext(UserContext);
+  const { phone } = route.params || {};
   const [name, setName] = useState(userName);
   const [address, setAddress] = useState(userAddress);
-  const [phone, setPhone] = useState(userPhone);
+  const [phoneNumber, setPhoneNumber] = useState(phone || userPhone);
 
   useEffect(() => {
-    setPhone(userPhone);
-  }, [userPhone]);
+    setPhoneNumber(phone || userPhone);
+  }, [phone, userPhone]);
 
   const handleUpdate = () => {
-    updateUserDetails(name, address, phone);
+    updateUserDetails(name, address, phoneNumber);
     navigation.navigate('Home'); // Navigate back to home or any other screen
   };
 
@@ -34,8 +35,8 @@ const ProfileScreen = ({ navigation }) => {
       <Text style={styles.label}>Phone Number</Text>
       <TextInput
         style={styles.input}
-        value={phone}
-        onChangeText={setPhone}
+        value={phoneNumber}
+        onChangeText={setPhoneNumber}
         keyboardType="phone-pad"
         editable={false} // Disable editing as it's already provided during signup
       />

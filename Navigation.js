@@ -2,9 +2,11 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+//import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyTabs from './TabNavigation';
 import SignupScreen from './screens/SignupScreen';
+import OtpScreen from './screens/OtpScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import BookingDetailsScreen from './screens/BookingDetailsScreen'; // Import the BookingDetailsScreen
 import { UserContext, UserProvider } from './UserContext';
@@ -30,7 +32,7 @@ function MyStack() {
         headerRight: () => (
           <TouchableOpacity onPress={() => navigation.navigate(isLoggedIn ? 'Profile' : 'Signup')}>
             <Icon
-              name={isLoggedIn ? "account-circle" : "user-circle"} // Change icon based on login state
+              name={isLoggedIn ? "account-circle" : "person-add"} // Change icon based on login state
               size={30}
               color="#fff"
               style={{ marginRight: 10 }}
@@ -53,6 +55,12 @@ function MyStack() {
           headerTitle: 'Signup',
         }}
       />
+      <Stack.Screen name="Otp"
+       component={OtpScreen}
+       options={{
+        headerTitle: 'Otp',
+      }}
+        />
       <Stack.Screen 
         name="Profile" 
         component={ProfileScreen} 
