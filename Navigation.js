@@ -21,7 +21,7 @@ function MyStack() {
   return (
     <Stack.Navigator
       screenOptions={({ navigation }) => ({
-        headerStyle: { backgroundColor: '#DB8534' },
+        headerStyle: { backgroundColor: '#4b0082' },
         headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: 'bold', fontSize: 24 },
         headerTitleAlign: 'center',
@@ -52,42 +52,42 @@ function MyStack() {
       <Stack.Screen 
         name="Tabs" 
         component={MyTabs} 
-        options={{ headerTitle: 'Think Smart Further' }}
+        options={{ headerTitle: 'AllWays' }}
       />
       <Stack.Screen 
         name="Signup" 
         component={SignupScreen} 
-        options={{ headerTitle: 'Think Smart Further' }}
+        options={{ headerTitle: 'AllWays' }}
       />
       <Stack.Screen 
         name="Otp"
         component={OtpScreen}
-        options={{ headerTitle: 'Think Smart Further' }}
+        options={{ headerTitle: 'AllWays' }}
       />
       <Stack.Screen 
         name="Profile" 
         component={ProfileScreen} 
-        options={{ headerTitle: 'Think Smart Further' }}
+        options={{ headerTitle: 'AllWays' }}
       />
       <Stack.Screen 
         name="BookingDetails" 
         component={BookingDetailsScreen} 
-        options={{ headerTitle: 'Think Smart Further' }}
+        options={{ headerTitle: 'AllWays' }}
       />
       <Stack.Screen 
         name="AccountInformation" 
         component={AccountInformationScreen} 
-        options={{ headerTitle: 'Think Smart Further' }}
+        options={{ headerTitle: 'AllWays' }}
       />
       <Stack.Screen 
         name="BookingHistory" 
         component={BookingHistoryScreen} 
-        options={{ headerTitle: 'Think Smart Further' }}
+        options={{ headerTitle: 'AllWays' }}
       />
       <Stack.Screen 
         name="RideScreen" 
         component={RideScreen} 
-        options={{ headerTitle: 'Think Smart Further' }}
+        options={{ headerTitle: 'AllWays' }}
       />
     </Stack.Navigator>
   );

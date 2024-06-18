@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, Button, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
@@ -12,19 +12,11 @@ const locations = [
 ];
 
 const vehicles = [
-  { image: '../assets/sedan4.jpg', seat: 4, type: 'Sedan', price: 50 },
-  { image: '../assets/suv1.jpg', seat: 7, type: 'SUV', price: 40 },
-  { image: '../assets/van.jpg', seat: 15, type: 'Van', price: 30 },
-  { image: '../assets/auto2.jpg', seat: 3, type: 'Auto', price: 70 },
+  { image: require('../assets/sedan4.jpg'), seat: 4, type: 'Sedan', price: 50 },
+  { image: require('../assets/suv1.jpg'), seat: 7, type: 'SUV', price: 40 },
+  { image: require('../assets/van.jpg'), seat: 15, type: 'Van', price: 30 },
+  { image: require('../assets/auto2.jpg'), seat: 3, type: 'Auto', price: 70 },
 ];
-
-const images = {
-  '../assets/van.jpg': require('../assets/van.jpg'),
-  '../assets/sedan4.jpg': require('../assets/sedan4.jpg'),
-  '../assets/auto2.jpg': require('../assets/auto2.jpg'),
-  '../assets/suv1.jpg': require('../assets/suv1.jpg'),
-  // Add more images here if needed
-};
 
 export default function RideScreen() {
   const navigation = useNavigation();
@@ -80,7 +72,7 @@ export default function RideScreen() {
       ]}
     >
       <Image
-        source={images[item.image]}
+        source={item.image}
         style={styles.vehicleImage}
       />
       <View style={styles.vehicleDetails}>
@@ -94,6 +86,7 @@ export default function RideScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Ride Booking</Text>
+
       <DropDownPicker
         open={fromOpen}
         value={fromValue}
@@ -101,12 +94,10 @@ export default function RideScreen() {
         setOpen={setFromOpen}
         setValue={setFromValue}
         placeholder="From"
-        style={[styles.dropdown, { zIndex: 2000 }]}
-        dropDownContainerStyle={[styles.dropdownContainer, { zIndex: 2000 }]}
-        onOpen={() => setToOpen(false)}
-        labelStyle={styles.dropdownLabel}
-        placeholderStyle={styles.dropdownPlaceholder}
-        arrowIconStyle={styles.dropdownArrow}
+        style={styles.dropdown}
+        dropDownContainerStyle={styles.dropdownContainer}
+        zIndex={2000} // Higher zIndex for 'From' dropdown
+        onChangeValue={() => setToOpen(false)} // Close 'To' dropdown when 'From' is changed
       />
 
       <DropDownPicker
@@ -116,19 +107,15 @@ export default function RideScreen() {
         setOpen={setToOpen}
         setValue={setToValue}
         placeholder="To"
-        style={[styles.dropdown, { zIndex: 1000 }]}
-        dropDownContainerStyle={[styles.dropdownContainer, { zIndex: 1000 }]}
-        onOpen={() => setFromOpen(false)}
-        labelStyle={styles.dropdownLabel}
-        placeholderStyle={styles.dropdownPlaceholder}
-        arrowIconStyle={styles.dropdownArrow}
+        style={styles.dropdown}
+        dropDownContainerStyle={styles.dropdownContainer}
+        zIndex={1000} // Lower zIndex for 'To' dropdown
+        onChangeValue={() => setFromOpen(false)} // Close 'From' dropdown when 'To' is changed
       />
 
       <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
         <Text style={styles.searchButtonText}>Search</Text>
       </TouchableOpacity>
-
-      {showVehicles && <Text style={styles.vehicleHeaderText}>Choose a Ride</Text>}
 
       {showVehicles && (
         <FlatList
@@ -140,11 +127,9 @@ export default function RideScreen() {
       )}
 
       {selectedVehicle && (
-        <View style={styles.confirmPickupContainer}>
-          <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmPickup}>
-            <Text style={styles.confirmButtonText}>Confirm Pickup</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmPickup}>
+          <Text style={styles.confirmButtonText}>Confirm Pickup</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -160,27 +145,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: '#4b0082',
     textAlign: 'center',
-    marginVertical: 20,
+    marginBottom: 20,
     fontWeight: 'bold',
   },
   dropdown: {
     marginBottom: 10,
     backgroundColor: '#e0e0e0',
-    borderColor: '#4b0082',
     borderRadius: 10,
   },
   dropdownContainer: {
     borderColor: '#4b0082',
-  },
-  dropdownLabel: {
-    color: '#4b0082',
-    fontWeight: 'bold',
-  },
-  dropdownPlaceholder: {
-    color: '#999',
-  },
-  dropdownArrow: {
-    tintColor: '#4b0082',
   },
   searchButton: {
     backgroundColor: '#4b0082',
@@ -194,15 +168,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  vehicleHeaderText: {
-    fontSize: 22,
-    color: '#4b0082',
-    textAlign: 'center',
-    marginVertical: 10,
-    fontWeight: 'bold',
-  },
   vehicleList: {
-    marginTop: 10,
+    marginTop: 20,
   },
   vehicleItem: {
     flexDirection: 'row',
@@ -236,21 +203,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#4b0082',
   },
-  confirmPickupContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#fff',
-    padding: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
-  },
   confirmButton: {
     backgroundColor: '#4b0082',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
+    marginTop: 20,
   },
   confirmButtonText: {
     color: '#fff',
