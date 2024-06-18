@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 //import Icon from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+//import Icon from 'react-native-vector-icons/MaterialIcons';
 import RideScreen from './screens/RideScreen';
 import FoodScreen from './screens/FoodScreen';
 import SignupScreen from './screens/SignupScreen';
@@ -22,7 +23,7 @@ function MyTabs() {
 
          // console.log(route.name);
           if (route.name === 'Ride') {
-            iconName = 'car';
+            iconName = 'home';
           } else if (route.name === 'Food') {
             iconName = 'cart';
           } else if (route.name === 'Home') {
@@ -52,11 +53,7 @@ function MyTabs() {
         component={(isLoggedIn && isProfileUpdated) ? RideScreen : SignupScreen}
         options={{ headerShown: false }}
       />
-      <Tab.Screen
-        name="Ride"
-        component={RideScreen}
-        options={{ headerShown: false }}
-      />
+      
       <Tab.Screen
         name="Food"
         component={FoodScreen}

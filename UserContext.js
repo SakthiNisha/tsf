@@ -1,3 +1,5 @@
+// UserContext.js
+
 import React, { createContext, useState } from 'react';
 
 export const UserContext = createContext();
@@ -19,6 +21,7 @@ export const UserProvider = ({ children }) => {
     setUserPhone('');
     setUserName('');
     setUserAddress('');
+    setProfileUpdated(false); // Clear profile update status
   };
 
   const updateUserDetails = (name, address, phone) => {
@@ -29,7 +32,18 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ isLoggedIn, login, logout, userPhone, userName, userAddress, isProfileUpdated, updateUserDetails }}>
+    <UserContext.Provider
+      value={{
+        isLoggedIn,
+        login,
+        logout, // Include logout function in context value
+        userPhone,
+        userName,
+        userAddress,
+        isProfileUpdated,
+        updateUserDetails,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

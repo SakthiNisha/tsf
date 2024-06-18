@@ -1,62 +1,89 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet, Image, Button } from 'react-native';
 
-export default function BookingDetailsScreen({ route }) {
+const BookingDetailsScreen = ({ route, navigation }) => {
   const { fromValue, toValue, selectedVehicle } = route.params;
-  const navigation = useNavigation();
-
-  const handleBookAnotherRide = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Tabs', screen: 'Ride' }],
-    });
-  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Booking Details</Text>
-      <Text style={styles.text}>From: {fromValue}</Text>
-      <Text style={styles.text}>To: {toValue}</Text>
-      <Text style={styles.text}>Vehicle: {selectedVehicle.type}</Text>
-      <Text style={styles.text}>Seats: {selectedVehicle.seat}</Text>
-      <Text style={styles.text}>Price: ${selectedVehicle.price}</Text>
+      <Text style={styles.heading}>Booking Details</Text>
 
-      <TouchableOpacity
-        style={styles.link}
-        onPress={handleBookAnotherRide}
-      >
-        <Text style={styles.linkText}>Book Another Ride</Text>
-      </TouchableOpacity>
+      <View style={styles.detailsContainer}>
+        <View style={styles.detailRow}>
+          <Text style={styles.label}>From:</Text>
+          <Text style={styles.value}>{fromValue}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.label}>To:</Text>
+          <Text style={styles.value}>{toValue}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.label}>Vehicle Type:</Text>
+          <Text style={styles.value}>{selectedVehicle.type}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.label}>Seats:</Text>
+          <Text style={styles.value}>{selectedVehicle.seat}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.label}>Price:</Text>
+          <Text style={styles.value}>${selectedVehicle.price}</Text>
+        </View>
+        
+      </View>
+
+      <Button
+        title="Book Another Ride"
+        onPress={() => {
+          // Handle confirmation logic here
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Tabs', screen: 'Ride' }],
+          });
+        }}
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 16,
     backgroundColor: '#fff',
   },
-  title: {
+  heading: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center',
   },
-  text: {
-    fontSize: 18,
+  detailsContainer: {
+    backgroundColor: '#f0f0f0',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 10,
   },
-  link: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: '#4b0082',
-    borderRadius: 5,
+  label: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#4b0082',
   },
-  linkText: {
-    color: '#fff',
-    fontSize: 16,
+  value: {
+    fontSize: 18,
+    color: '#4b0082',
+  },
+  vehicleImage: {
+    width: '100%',
+    height: 200,
+    marginTop: 20,
+    borderRadius: 10,
   },
 });
+
+export default BookingDetailsScreen;

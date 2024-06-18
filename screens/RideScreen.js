@@ -104,6 +104,9 @@ export default function RideScreen() {
         style={[styles.dropdown, { zIndex: 2000 }]}
         dropDownContainerStyle={[styles.dropdownContainer, { zIndex: 2000 }]}
         onOpen={() => setToOpen(false)}
+        labelStyle={styles.dropdownLabel}
+        placeholderStyle={styles.dropdownPlaceholder}
+        arrowIconStyle={styles.dropdownArrow}
       />
 
       <DropDownPicker
@@ -116,11 +119,16 @@ export default function RideScreen() {
         style={[styles.dropdown, { zIndex: 1000 }]}
         dropDownContainerStyle={[styles.dropdownContainer, { zIndex: 1000 }]}
         onOpen={() => setFromOpen(false)}
+        labelStyle={styles.dropdownLabel}
+        placeholderStyle={styles.dropdownPlaceholder}
+        arrowIconStyle={styles.dropdownArrow}
       />
 
-      <Button title="Search" onPress={handleSearch} />
+      <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+        <Text style={styles.searchButtonText}>Search</Text>
+      </TouchableOpacity>
 
-      {showVehicles && <Text style={styles.text}>Choose a ride</Text>}
+      {showVehicles && <Text style={styles.vehicleHeaderText}>Choose a Ride</Text>}
 
       {showVehicles && (
         <FlatList
@@ -133,7 +141,9 @@ export default function RideScreen() {
 
       {selectedVehicle && (
         <View style={styles.confirmPickupContainer}>
-          <Button title="Confirm Pickup" onPress={handleConfirmPickup} />
+          <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmPickup}>
+            <Text style={styles.confirmButtonText}>Confirm Pickup</Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>
@@ -143,38 +153,72 @@ export default function RideScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
+    padding: 16,
     backgroundColor: '#fff',
   },
   text: {
     fontSize: 30,
-    color: '#101010',
+    color: '#4b0082',
     textAlign: 'center',
+    marginVertical: 20,
+    fontWeight: 'bold',
   },
   dropdown: {
     marginBottom: 10,
-    elevation: 1,
+    backgroundColor: '#e0e0e0',
+    borderColor: '#4b0082',
+    borderRadius: 10,
   },
   dropdownContainer: {
     borderColor: '#4b0082',
   },
+  dropdownLabel: {
+    color: '#4b0082',
+    fontWeight: 'bold',
+  },
+  dropdownPlaceholder: {
+    color: '#999',
+  },
+  dropdownArrow: {
+    tintColor: '#4b0082',
+  },
+  searchButton: {
+    backgroundColor: '#4b0082',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  searchButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  vehicleHeaderText: {
+    fontSize: 22,
+    color: '#4b0082',
+    textAlign: 'center',
+    marginVertical: 10,
+    fontWeight: 'bold',
+  },
   vehicleList: {
-    marginTop: 20,
+    marginTop: 10,
   },
   vehicleItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    marginVertical: 5,
   },
   selectedVehicleItem: {
-    backgroundColor: '#e0e0e0', // Change this color to the desired highlight color
+    backgroundColor: '#e0e0e0',
   },
   vehicleImage: {
     width: 90,
     height: 40,
-    marginLeft: 10,
   },
   vehicleDetails: {
     flex: 1,
@@ -186,6 +230,7 @@ const styles = StyleSheet.create({
   vehicleText: {
     fontSize: 18,
     color: '#4b0082',
+    fontWeight: 'bold',
   },
   vehiclePrice: {
     fontSize: 18,
@@ -200,5 +245,16 @@ const styles = StyleSheet.create({
     padding: 10,
     borderTopWidth: 1,
     borderTopColor: '#ccc',
+  },
+  confirmButton: {
+    backgroundColor: '#4b0082',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  confirmButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });

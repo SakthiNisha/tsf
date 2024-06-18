@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-
+import { UserContext } from '../UserContext';
 const OtpScreen = ({ route, navigation }) => {
   const { phone } = route.params;
   const [otp, setOtp] = useState('');
+  const { login } = useContext(UserContext);
 
   const handleOtpSubmit = () => {
     // You can add your OTP verification logic here
     if (otp === '1234') { // Simulating successful OTP verification
+      login(phone);
       navigation.navigate('Profile', { phone });
     } else {
       alert('Invalid OTP');

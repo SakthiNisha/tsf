@@ -7,7 +7,7 @@ const SignupScreen = ({ navigation }) => {
   const [phone, setPhone] = useState('');
 
   const handleSignup = () => {
-    login(phone);
+   // login(phone);
     navigation.navigate('Otp', { phone }); // Navigate to OTP screen
   };
 
