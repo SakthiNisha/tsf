@@ -8,6 +8,7 @@ import FoodScreen from './screens/FoodScreen';
 import SignupScreen from './screens/SignupScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SettingScreen from './screens/SettingScreen';
+import MapScreen from './screens/MapScreen';
 import { UserContext } from './UserContext';
 
 const Tab = createBottomTabNavigator();
@@ -62,6 +63,11 @@ function MyTabs() {
       <Tab.Screen
         name="setting"
         component={SettingScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Map"
+        component={MapScreen}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
