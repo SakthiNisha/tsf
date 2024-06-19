@@ -57,10 +57,12 @@ function MyTabs() {
       <Tab.Screen
         name="Food"
         component={FoodScreen}
+        options={{ headerShown: false }}
       />
       <Tab.Screen
         name="setting"
         component={SettingScreen}
+        options={{ headerShown: false }}
       />
     </Tab.Navigator>
   );

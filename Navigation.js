@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyTabs from './TabNavigation';
 import SignupScreen from './screens/SignupScreen';
@@ -15,6 +15,16 @@ import { UserContext, UserProvider } from './UserContext';
 
 const Stack = createStackNavigator();
 
+const CustomHeaderTitle = () => (
+  <View style={styles.headerTitleContainer}>
+    <Image
+      source={require('./assets/logo.jpg')}
+      style={styles.logo}
+    />
+    <Text style={styles.headerTitle}>AllWays</Text>
+  </View>
+);
+
 function MyStack() {
   const { isLoggedIn, logout } = React.useContext(UserContext);
 
@@ -23,7 +33,7 @@ function MyStack() {
       screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: '#4b0082' },
         headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: 'bold', fontSize: 24 },
+        headerTitle: () => <CustomHeaderTitle />,
         headerTitleAlign: 'center',
         headerLeft: () => (
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -32,9 +42,7 @@ function MyStack() {
                 <Icon name="arrow-back" size={30} color="#fff" style={{ marginLeft: 10 }} />
               </TouchableOpacity>
             )}
-            
           </View>
-          
         ),
         headerRight: () => (
           isLoggedIn ? (
@@ -49,49 +57,39 @@ function MyStack() {
         ),
       })}
     >
-      <Stack.Screen 
-        name="Tabs" 
-        component={MyTabs} 
-        options={{ headerTitle: 'AllWays' }}
-      />
-      <Stack.Screen 
-        name="Signup" 
-        component={SignupScreen} 
-        options={{ headerTitle: 'AllWays' }}
-      />
-      <Stack.Screen 
-        name="Otp"
-        component={OtpScreen}
-        options={{ headerTitle: 'AllWays' }}
-      />
-      <Stack.Screen 
-        name="Profile" 
-        component={ProfileScreen} 
-        options={{ headerTitle: 'AllWays' }}
-      />
-      <Stack.Screen 
-        name="BookingDetails" 
-        component={BookingDetailsScreen} 
-        options={{ headerTitle: 'AllWays' }}
-      />
-      <Stack.Screen 
-        name="AccountInformation" 
-        component={AccountInformationScreen} 
-        options={{ headerTitle: 'AllWays' }}
-      />
-      <Stack.Screen 
-        name="BookingHistory" 
-        component={BookingHistoryScreen} 
-        options={{ headerTitle: 'AllWays' }}
-      />
-      <Stack.Screen 
-        name="RideScreen" 
-        component={RideScreen} 
-        options={{ headerTitle: 'AllWays' }}
-      />
+      <Stack.Screen name="Tabs" component={MyTabs} />
+      <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen name="Otp" component={OtpScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="BookingDetails" component={BookingDetailsScreen} />
+      <Stack.Screen name="AccountInformation" component={AccountInformationScreen} />
+      <Stack.Screen name="BookingHistory" component={BookingHistoryScreen} />
+      <Stack.Screen name="RideScreen" component={RideScreen} />
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  headerTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerTitle: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    textTransform: 'uppercase', // Example: transform text to uppercase
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    borderRadius: 25, // Example: make logo circular
+    marginLeft: 10,
+    borderWidth: 2,
+    borderColor: '#fff', // Example: add border around logo
+  },
+});
 
 export default function Navigation() {
   return (
